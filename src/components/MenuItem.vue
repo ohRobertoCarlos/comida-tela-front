@@ -1,11 +1,12 @@
 <template>
     <div class="menu-item">
-        <img src="" alt="Item 1">
+        <img :src="item.cover_image_location_url" :alt="item.title">
         <div class="menu-item-details">
-            <h3>Nome do Item 1</h3>
-            <div class="price">R$ 25,00</div>
-            <p>Descrição do item 1, incluindo detalhes dos ingredientes e modo de preparo.</p>
-            <RouterLink to="/items" class="back-button">
+            <h3>{{ item.title }}</h3>
+            <div v-if="item.max_price === null" class="price">R$ {{ item.min_price }}</div>
+            <div v-else class="price">R$ {{ item.min_price }} - R$ {{ item.max_price }}</div>
+            <p>{{ item.description }}</p>
+            <RouterLink :to="'/' + establishmentId + '/items/' + item.id" class="back-button">
                 Ver mais detalhes
             </RouterLink>
         </div>
@@ -14,6 +15,11 @@
 
 <script setup>
 import { RouterLink } from 'vue-router';
+
+defineProps({
+    item: Object,
+    establishmentId: String
+});
 </script>
 
 <style>

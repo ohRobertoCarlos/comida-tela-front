@@ -1,12 +1,12 @@
 <template>
     <div>
-        <img src="" alt="Nome do Item" class="item-image">
+        <img :src="item.cover_image_location_url" :alt="item.title" class="item-image">
         <div class="item-info">
-            <h2>Nome do Item</h2>
-            <div class="price">R$ 65,00</div>
-            <p class="description">Descrição detalhada do item do cardápio. Aqui você pode incluir informações sobre os ingredientes, o modo de preparo, sugestões de harmonização, ou qualquer outra informação relevante que valorize o prato.</p>
-
-            <RouterLink to="/" class="back-button">
+            <h2>{{ item.title }}</h2>
+            <div v-if="item.max_price === null" class="price">R$ {{ item.min_price }}</div>
+            <div v-else class="price">R$ {{ item.min_price }} - R$ {{ item.max_price }}</div>
+            <p class="description">{{ item.description }}</p>
+            <RouterLink class="back-button">
                 Voltar ao Cardápio
             </RouterLink>
         </div>
@@ -15,6 +15,9 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
+defineProps({
+    item: Object
+});
 </script>
 
 <style scoped>
@@ -24,10 +27,6 @@ import { RouterLink } from 'vue-router'
     object-fit: cover;
     border-radius: 12px;
     transition: transform 0.3s ease;
-}
-
-.item-image:hover {
-    transform: scale(1.05);
 }
 
 .item-info {

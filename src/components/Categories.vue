@@ -1,14 +1,13 @@
 <template>
     <nav>
-        <a href="#entradas">Entradas</a>
-        <a href="#pratos-principais">Pratos Principais</a>
-        <a href="#sobremesas">Sobremesas</a>
-        <a href="#bebidas">Bebidas</a>
+        <a v-for="category in categories" :href="'#category_' + category.id" :key="category.id">{{ category.name }}</a>
     </nav>
 </template>
 
 <script setup>
-
+const props = defineProps({
+    categories: Array
+});
 </script>
 
 <style>
