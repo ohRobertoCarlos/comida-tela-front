@@ -92,19 +92,6 @@ header h1 {
     background-color: #d62828;
 }
 
-footer {
-    background-color: #212529;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    border-top: 5px solid #e63946;
-}
-
-footer p {
-    margin: 0;
-    font-size: 1em;
-}
-
 @media (max-width: 768px) {
     .search-container h2 {
         font-size: 1.8em;

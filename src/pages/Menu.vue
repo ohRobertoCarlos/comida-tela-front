@@ -50,19 +50,6 @@ async function getEstablishment() {
     }
 }
 
-async function getItemsEstablishment() {
-    try {
-        let data = await fetch(`${API_BASE_URL}/establishments/${establishment.value.id}/menus/items`)
-            .then(response => response.json())
-            .then(json => json.data)
-            .catch(error => null);
-
-        return data;
-    } catch (error) {
-        return null;
-    }
-}
-
 onMounted(async () => {
     const establishmentData = await getEstablishment();
 
@@ -78,7 +65,7 @@ onMounted(async () => {
 
     establishment.value = establishmentData;
 
-    itemsWithoutCategory.value = await getItemsEstablishment();
+    itemsWithoutCategory.value = establishmentData?.menu?.items_without_category;
 });
 
 </script>
