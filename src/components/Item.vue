@@ -6,9 +6,9 @@
             <div v-if="item.max_price === null" class="price">R$ {{ item.min_price }}</div>
             <div v-else class="price">R$ {{ item.min_price }} - R$ {{ item.max_price }}</div>
             <p class="description">{{ item.description }}</p>
-            <RouterLink class="back-button">
+            <!--<RouterLink class="back-button">
                 Voltar ao Cardápio
-            </RouterLink>
+            </RouterLink>-->
         </div>
     </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-        <h1>Detalhes do Item do Cardápio</h1>
+        <h1>Detalhes do Item</h1>
     </header>
 
     <div v-if="item" class="container">
