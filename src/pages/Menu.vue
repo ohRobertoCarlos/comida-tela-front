@@ -39,7 +39,11 @@ if (!route.params.menuCode) {
 
 async function getEstablishment() {
     try {
-        let data = await fetch(`${API_BASE_URL}/establishments/menuCode/${route.params.menuCode}`)
+        let data = await fetch(`${API_BASE_URL}/establishments/menuCode/${route.params.menuCode}`, {
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
             .then(response => response.json())
             .then(json => json.data)
             .catch(error => null);

@@ -27,7 +27,11 @@ const item = ref(null);
 
 async function getItem() {
     try {
-        let data = await fetch(`${API_BASE_URL}/establishments/${props.establishmentId}/menus/items/${props.id}`)
+        let data = await fetch(`${API_BASE_URL}/establishments/${props.establishmentId}/menus/items/${props.id}`, {
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
             .then(response => response.json())
             .then(json => json.data)
             .catch(error => null);
