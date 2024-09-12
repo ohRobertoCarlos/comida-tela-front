@@ -29,6 +29,12 @@ header .restaurant-logo {
     object-fit: cover;
 }
 
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 .social-icons {
     display: flex;
     justify-content: center;
@@ -197,7 +203,7 @@ footer {
     color: white;
     text-align: center;
     padding: 20px;
-    margin-top: 50px;
+    margin-top: auto;
     border-top: 5px solid #e63946;
 }
 

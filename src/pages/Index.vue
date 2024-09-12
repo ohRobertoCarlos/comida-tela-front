@@ -3,15 +3,14 @@
     <header>
         <h1>Buscar Estabelecimento</h1>
     </header>
-    <div class="page-container">
+    <div>
         <div class="content">
             <div class="search-container">
                 <div>
-                    <input v-model="search" type="text" placeholder="Digite o nome do estabelecimento">
-                    <button :disabled="search.length === 0" @click="searchEstablishment" type="button">Buscar</button>
+                    <input v-model="search" @keyup="searchEstablishment" type="text" placeholder="Digite o nome do estabelecimento...">
                 </div>
 
-                <div v-show="establishments.length > 0" class="establishments-list">
+                <div v-show="establishments.length > 0 && !searching && search.length > MIN_CHARACTERS_SEARCH" class="establishments-list">
                     <RouterLink v-for="establishment in establishments" style="text-decoration: none; color: inherit;" :to="'/' + establishment.menu_code" :key="establishment.id">
                         <div class="establishment-item">
                             <img :src="establishment?.profile.image_cover_profile_location_url" alt="Logo" class="establishment-logo">
@@ -22,6 +21,18 @@
                         </div>
                     </RouterLink>
                 </div>
+
+                <div v-show="search.length >= 1 && search.length <= MIN_CHARACTERS_SEARCH && !searching" class="no-results">
+                    <p>Digite mais {{ remainingCharactersToSearching }} {{ remainingCharactersToSearching > 1 ? 'caracteres' : 'caractere' }} para fazer a busca.</p>
+                </div>
+
+                <div v-show="search.length > MIN_CHARACTERS_SEARCH && searching" class="no-results">
+                    <p>Buscando...</p>
+                </div>
+
+                <div v-show="search.length > MIN_CHARACTERS_SEARCH && establishments.length === 0 && !searching" class="no-results">
+                    <p>Não foram encontrados resultados</p>
+                </div>
             </div>
         </div>
     </div>
@@ -29,7 +40,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { RouterLink } from "vue-router";
 
 const search = ref('');
@@ -37,11 +48,20 @@ const establishments = ref([]);
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost';
 
+const searching = ref(false);
+
+const MIN_CHARACTERS_SEARCH = 3;
+
+const remainingCharactersToSearching = computed(() => {
+    return (MIN_CHARACTERS_SEARCH + 1) - search.value.length;
+});
+
 async function searchEstablishment() {
-    if (search.value.length === 0) {
+    if (search.value.length <= MIN_CHARACTERS_SEARCH) {
         return;
     }
 
+    searching.value = true;
     let result = [];
     try {
         result = await fetch(`${API_BASE_URL}/establishments?search=${search.value}`, {
@@ -57,6 +77,7 @@ async function searchEstablishment() {
     }
 
     establishments.value = result !== null ? result : [];
+    searching.value = false;
 }
 </script>
 
@@ -68,12 +89,6 @@ html, body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f8f9fa;
     color: #343a40;
-}
-
-.page-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
 }
 
 header {
