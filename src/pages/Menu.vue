@@ -7,15 +7,19 @@
             <MenuItem v-for="item in itemsWithoutCategory" :item="item" :establishment-id="establishment.id" :key="item.id"/>
         </div>
 
-        <div class="container">
+        <div v-if="establishment.categories && establishment.categories.length > 0" class="container">
             <Category v-for="category in establishment.categories" :category="category" :key="category.id"/>
+        </div>
+
+        <div v-if="noItemsMenu" class="no-items">
+            <p>Não há itens no menu deste estabelecimento</p>
         </div>
     </div>
 </template>
 
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 import Header from '../components/Header.vue';
 import Categories from '../components/Categories.vue';
@@ -36,6 +40,10 @@ if (!route.params.menuCode) {
         hash: route.hash,
     });
 }
+
+const noItemsMenu = computed(() => {
+    return establishment.value?.categories.length === 0 && itemsWithoutCategory.value.length === 0;
+});
 
 async function getEstablishment() {
     try {
@@ -74,6 +82,10 @@ onMounted(async () => {
 
 </script>
 
-<style>
-
+<style scoped>
+.no-items {
+    text-align: center;
+    padding: 20px;
+    color: #6c757d;
+}
 </style>

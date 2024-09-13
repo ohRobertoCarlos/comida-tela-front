@@ -1,7 +1,7 @@
 <template>
   <div style="position: relative;">
     <header>
-        <img :src="establishment.profile.image_cover_profile_location_url" alt="Logo do Restaurante" class="restaurant-logo">
+        <img :src="establishment.profile.image_cover_profile_location_url" alt="Logo do Estabelecimento" class="restaurant-logo">
         <h1>{{ establishment.name }}</h1>
     </header>
 

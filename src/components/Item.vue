@@ -1,6 +1,8 @@
 <template>
     <div>
-        <img :src="item.cover_image_location_url" :alt="item.title" class="item-image">
+        <div class="container-image-item">
+            <img :src="item.cover_image_location_url" :alt="item.title" class="item-image">
+        </div>
         <div class="item-info">
             <h2>{{ item.title }}</h2>
             <div v-if="item.max_price === null" class="price">R$ {{ item.min_price }}</div>
@@ -22,8 +24,8 @@ defineProps({
 
 <style scoped>
 .item-image {
-    width: 100%;
-    max-height: 500px;
+    height: 600px;
+    width: 600px;
     object-fit: cover;
     border-radius: 12px;
     transition: transform 0.3s ease;
@@ -73,6 +75,11 @@ defineProps({
     background-color: #d62828;
 }
 
+.container-image-item {
+    display: flex;
+    justify-content: center;
+}
+
 
 @media (max-width: 768px) {
     .item-info h2 {
@@ -90,6 +97,11 @@ defineProps({
     .back-button {
         font-size: 1em;
         padding: 10px 20px;
+    }
+
+    .item-image {
+        max-width: 400px;
+        max-height: 400px;
     }
 }
 
@@ -109,6 +121,11 @@ defineProps({
     .back-button {
         font-size: 0.9em;
         padding: 8px 18px;
+    }
+
+    .item-image {
+        max-width: 400px;
+        max-height: 400px;
     }
 }
 </style>

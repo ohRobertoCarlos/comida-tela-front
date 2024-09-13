@@ -11,9 +11,5 @@ const props = defineProps({
 </script>
 
 <style scoped>
-.categories-nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
+
 </style>

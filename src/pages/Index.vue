@@ -22,10 +22,6 @@
                     </RouterLink>
                 </div>
 
-                <div v-show="search.length >= 1 && search.length <= MIN_CHARACTERS_SEARCH && !searching" class="no-results">
-                    <p>Digite mais {{ remainingCharactersToSearching }} {{ remainingCharactersToSearching > 1 ? 'caracteres' : 'caractere' }} para fazer a busca.</p>
-                </div>
-
                 <div v-show="search.length > MIN_CHARACTERS_SEARCH && searching" class="no-results">
                     <p>Buscando...</p>
                 </div>
@@ -52,9 +48,6 @@ const searching = ref(false);
 
 const MIN_CHARACTERS_SEARCH = 3;
 
-const remainingCharactersToSearching = computed(() => {
-    return (MIN_CHARACTERS_SEARCH + 1) - search.value.length;
-});
 
 async function searchEstablishment() {
     if (search.value.length <= MIN_CHARACTERS_SEARCH) {
@@ -226,7 +219,6 @@ header h1 {
     text-align: start;
 }
 
-/* Estilização do campo de busca e lista de estabelecimentos */
 .no-results {
     text-align: center;
     padding: 20px;

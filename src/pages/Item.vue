@@ -59,5 +59,8 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-
+.container {
+    background-color: transparent;
+    box-shadow: none;
+}
 </style>
