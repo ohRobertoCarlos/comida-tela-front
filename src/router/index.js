@@ -1,48 +1,20 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
+import { useAuthStore } from '@/stores/authStore';
+import admin from './admin.js';
+import menu from './menu.js';
 
 const routes = [
-  {
-    path: '/',
-    name: 'index',
-    component: () => import('../pages/Index.vue'),
-    meta: {
-      title: 'Buscar Estabelecimento',
-      description: 'Buscar Estabelecimento - Cardápio Online'
-    }
-  },
-  {
-    path: '/:menuCode',
-    name: 'menu',
-    component: () => import('../pages/Menu.vue'),
-    meta: {
-      title: 'Home - Cardápio Online',
-      description: 'Home - Cardápio Online'
-    }
-  },
-  {
-    path: '/:establishmentId/items/:id',
-    name: 'item',
-    component: () => import('../pages/Item.vue'),
-    props: (route) => ({ id: route.params.id, establishmentId: route.params.establishmentId }),
-  },
-  {
-    path: '/:pathMatch(.*)*',
-    name : 'NotFound',
-    component: () => import('../pages/PageNotFound.vue'),
-    meta: {
-      title: '404 - página não encontrada',
-      description: 'Página não encontrada'
-    }
-  }
+  ...admin,
+  ...menu
 ];
-
 
 const router = createRouter({
   history: createWebHistory(),
   routes: routes
 });
 
-router.beforeEach((to, from, next) => {
+
+router.beforeEach(async (to) => {
   document.title = to.meta.title || 'Cardápio Online';
   const description = to.meta.description || 'Cardápio Online';
   let meta = document.querySelector('meta[name="description"]');
@@ -54,8 +26,19 @@ router.beforeEach((to, from, next) => {
     meta.content = description;
     document.head.appendChild(meta);
   }
+  
+  const authStore = useAuthStore();
 
-  next();
+  await authStore.fetchUser();
+
+  if (to.meta.requiresAuth !== undefined && to.meta.requiresAuth === true && !authStore.user) {
+    return { path: '/admin/login' };
+  }
+
+  if (to.meta.requiresGuest !== undefined && to.meta.requiresGuest === true && authStore.user) {
+    return { path: '/admin/dashboard' };
+  }
+
 });
 
 export default router;
