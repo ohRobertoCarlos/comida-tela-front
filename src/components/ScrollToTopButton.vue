@@ -13,9 +13,13 @@ const backToTopBtn = ref(null);
 
 window.onscroll = () =>  {
     if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-        backToTopBtn.value.style.display = 'flex';
+        if (backToTopBtn.value) {
+            backToTopBtn.value.style.display = 'flex';
+        }
     } else {
-        backToTopBtn.value.style.display = 'none';
+        if (backToTopBtn.value) {
+            backToTopBtn.value.style.display = 'none';
+        }
     }
 };
 

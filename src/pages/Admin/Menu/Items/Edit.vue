@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <p>dashboard</p>
-  </div>
+ <p>Edit</p> 
 </template>
 
 <script setup>

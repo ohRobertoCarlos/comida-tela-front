@@ -28,7 +28,6 @@ router.beforeEach(async (to) => {
   }
   
   const authStore = useAuthStore();
-
   await authStore.fetchUser();
 
   if (to.meta.requiresAuth !== undefined && to.meta.requiresAuth === true && !authStore.user) {
@@ -37,6 +36,14 @@ router.beforeEach(async (to) => {
 
   if (to.meta.requiresGuest !== undefined && to.meta.requiresGuest === true && authStore.user) {
     return { path: '/admin/dashboard' };
+  }
+
+  if (to.meta.requiresAdmin !== undefined && to.meta.requiresAdmin === true && authStore.user.is_admin !== true) {
+    return { path: `/admin/establishments/${authStore.user.establishment_id}/dashboard` };
+  }
+
+  if (to.params.establishmentId && to.meta.onlyUsersEstablishment !== undefined && to.meta.onlyUsersEstablishment === true && authStore.user.establishment_id && authStore.user.establishment_id !== to.params.establishmentId) {
+    return { path: `/admin/establishments/${authStore.user.establishment_id}/dashboard` };
   }
 
 });

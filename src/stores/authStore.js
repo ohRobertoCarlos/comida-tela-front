@@ -24,7 +24,7 @@ export const useAuthStore = defineStore('auth', {
         if (!response.ok) throw new Error('Falha no login');
 
         const data = await response.json();
-        localStorage.setItem('accessToken', data.data.access_token);
+        this.setToken(data.data.access_token);
         await this.fetchUser();
 
         return true;
@@ -67,7 +67,7 @@ export const useAuthStore = defineStore('auth', {
         if (!response.ok) throw new Error('Erro ao atualizar token');
 
         const data = await response.json();
-        localStorage.setItem('accessToken', data.data.access_token);
+        this.setToken(data.data.access_token);
         await this.fetchUser();
 
         return true;
@@ -95,6 +95,11 @@ export const useAuthStore = defineStore('auth', {
       } catch (error) {
         this.user = null;
       }
+    },
+
+    setToken(token) {
+      this.accessToken = token;
+      localStorage.setItem('accessToken', token);
     },
   },
 });

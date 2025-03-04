@@ -5,7 +5,7 @@
         </div>
         <div class="item-info">
             <h2>{{ item.title }}</h2>
-            <div v-if="item.max_price === null" class="price">R$ {{ item.min_price }}</div>
+            <div v-if="item.max_price === null || item.max_price === 0 || item.max_price === '0'" class="price">R$ {{ item.min_price }}</div>
             <div v-else class="price">R$ {{ item.min_price }} - R$ {{ item.max_price }}</div>
             <p class="description">{{ item.description }}</p>
             <!--<RouterLink class="back-button">

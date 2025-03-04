@@ -1,8 +1,10 @@
 <template>
   <div class="page-container">
+    <SideBarMenu v-if="$route.path.startsWith('/admin/') && authStore.user !== null" />
+    <ScrollToTopButton v-if="!$route.path.startsWith('/admin/')" />
+
     <RouterView />
     <Footer />
-    <ScrollToTopButton />
   </div>
 </template>
 
@@ -10,6 +12,10 @@
 import { RouterView } from 'vue-router'
 import Footer from './components/Footer.vue';
 import ScrollToTopButton from './components/ScrollToTopButton.vue';
+import SideBarMenu from './components/SideBarMenu.vue';
+import { useAuthStore } from './stores/authStore.js';
+
+const authStore = useAuthStore();
 </script>
 
 <style>

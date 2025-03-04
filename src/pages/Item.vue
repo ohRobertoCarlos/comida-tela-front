@@ -20,7 +20,7 @@ const route = useRoute();
 const router = useRouter();
 
 const props = defineProps({
-  id: Object,
+  id: String,
   establishmentId: String
 });
 const item = ref(null);
