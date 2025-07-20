@@ -26,7 +26,7 @@ router.beforeEach(async (to) => {
     meta.content = description;
     document.head.appendChild(meta);
   }
-  
+
   const authStore = useAuthStore();
   await authStore.fetchUser();
 

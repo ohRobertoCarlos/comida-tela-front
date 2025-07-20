@@ -205,6 +205,10 @@ footer p {
     font-size: 1em;
 }
 
+.link-table-items {
+    margin: 0 10px;
+}
+
 @media (max-width: 768px) {
     .menu-item {
         flex-direction: column;

@@ -21,7 +21,7 @@ export const useItemsStore = defineStore('items', {
                 .then(response => response.json())
                 .then(json => json.data)
                 .catch(error => null);
-    
+
             this.items = data;
         } catch (error) {
             this.items = null;
@@ -60,6 +60,28 @@ export const useItemsStore = defineStore('items', {
             return item;
         } catch (error) {
             return null;
+        }
+    },
+    async delete(establishmentId, itemId) {
+        try {
+            let response = await fetch(`${API_BASE_URL}/establishments/${establishmentId}/menus/items/${itemId}/`, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization' : `Bearer ${authStore.accessToken}`
+                }
+            })
+            .catch(error => {
+                return null;
+            });
+
+            if (!response || !response.ok) {
+                return false;
+            }
+
+            return true;
+        } catch(e) {
+            return false;
         }
     }
   },
