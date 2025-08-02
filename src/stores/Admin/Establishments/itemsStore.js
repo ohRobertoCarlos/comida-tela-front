@@ -62,6 +62,38 @@ export const useItemsStore = defineStore('items', {
             return null;
         }
     },
+    async update(establishmentId, itemData) {
+        try {
+            if (itemData.max_price === '0') {
+                delete itemData.max_price;
+            }
+
+            if (itemData.max_price && itemData.max_price !== '0') {
+                itemData.max_price = parseFloat(itemData.max_price);
+            }
+
+            itemData.min_price = parseFloat(itemData.min_price);
+
+            let item = await fetch(`${API_BASE_URL}/establishments/${establishmentId}/menus/items/${itemData.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization' : `Bearer ${authStore.accessToken}`,
+                    'Content-Type' : 'application/json'
+                },
+                body : JSON.stringify(itemData)
+            })
+                .then(response => response.json())
+                .then(json => json.data)
+                .catch(error => {
+                    return null;
+                });
+
+            return item;
+        } catch (error) {
+            return null;
+        }
+    },
     async delete(establishmentId, itemId) {
         try {
             let response = await fetch(`${API_BASE_URL}/establishments/${establishmentId}/menus/items/${itemId}/`, {
@@ -83,6 +115,22 @@ export const useItemsStore = defineStore('items', {
         } catch(e) {
             return false;
         }
-    }
+    },
+    async find(establishmentId, itemId) {
+        try {
+            let data = await fetch(`${API_BASE_URL}/establishments/${establishmentId}/menus/items/${itemId}`, {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(json => json.data)
+                .catch(error => null);
+
+            return data;
+        } catch (error) {
+            return null;
+        }
+    },
   },
 });
