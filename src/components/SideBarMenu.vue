@@ -33,8 +33,9 @@
                         <RouterLink @click="toggleSidebar" :to="`/admin/establishments/${authStore.user.establishment_id}/profile`">Establishment Profile</RouterLink>
                     </li>
 
+
                     <li>
-                        <RouterLink @click="toggleSidebar" to="">Users</RouterLink>
+                        <RouterLink @click="toggleSidebar" :to="`/admin/establishments/${authStore.user.establishment_id}/categories`">Categories</RouterLink>
                     </li>
                 </ul>
             </div>

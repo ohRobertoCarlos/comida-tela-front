@@ -59,6 +59,33 @@ const routes = [
         ]
     },
     {
+        path: '/admin/establishments',
+        meta: { requiresAuth: true , onlyUsersEstablishment: true},
+        children : [
+            {
+                path: ':establishmentId/categories',
+                name: 'admin.establishments.categories',
+                component: () => import('../pages/Admin/Establishments/Categories/Index.vue'),
+                props: (route) => ({ establishmentId: route.params.establishmentId }),
+                meta: { title : 'Categories'}
+            },
+            {
+                path: ':establishmentId/categories/create',
+                name: 'admin.establishments.categories.create',
+                component: () => import('../pages/Admin/Establishments/Categories/Create.vue'),
+                props: (route) => ({ establishmentId: route.params.establishmentId }),
+                meta: { title : 'Create Category'}
+            },
+            {
+                path: ':establishmentId/categories/:categoryId/edit',
+                name: 'admin.establishments.categories.edit',
+                component: () => import('../pages/Admin/Establishments/Categories/Edit.vue'),
+                props: (route) => ({ establishmentId: route.params.establishmentId, categoryId: route.params.categoryId }),
+                meta: { title : 'Edit Category'}
+            }
+        ]
+    },
+    {
         path: '/admin/establishments/:establishmentId/dashboard',
         name: 'admin.establishments.dashboard',
         component: () => import('../pages/Admin/Establishments/Dashboard.vue'),

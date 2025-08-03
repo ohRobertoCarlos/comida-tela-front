@@ -207,6 +207,10 @@ footer p {
     margin: 0 10px;
 }
 
+.link-table-categories {
+    margin: 0 10px;
+}
+
 @media (max-width: 768px) {
     .menu-item {
         flex-direction: column;
