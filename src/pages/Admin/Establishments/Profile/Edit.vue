@@ -72,6 +72,7 @@ async function update() {
 
     if (!profileUpdated) {
         alert('Não foi possível atualizar o perfil');
+        return;
     }
 
     alert('Perfil atualizado com sucesso!');
