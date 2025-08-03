@@ -22,7 +22,7 @@ export const useEstablishmentsStore = defineStore('establishments', {
                 .then(response => response.json())
                 .then(json => json.data)
                 .catch(error => null);
-    
+
             this.establishments = data;
         } catch (error) {
             this.establishments = [];
@@ -42,11 +42,28 @@ export const useEstablishmentsStore = defineStore('establishments', {
                 .then(response => response.json())
                 .then(json => json.data)
                 .catch(error => null);
-    
+
             return establishment;
         } catch (error) {
             return null;
         }
-    }
+    },
+    async find(establishmentId) {
+        try {
+            let data = await fetch(`${API_BASE_URL}/establishments/${establishmentId}`, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization' : `Bearer ${authStore.accessToken}`
+                }
+            })
+                .then(response => response.json())
+                .then(json => json.data)
+                .catch(error => null);
+
+            return data;
+        } catch (error) {
+            return null;
+        }
+    },
   },
 });

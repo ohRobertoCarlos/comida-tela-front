@@ -41,7 +41,7 @@ const routes = [
                 component: () => import('../pages/Admin/Establishments/Edit.vue'),
                 props: (route) => ({ establishmentId: route.params.establishmentId }),
                 meta: { title : 'Edit'}
-            },
+            }
         ]
     },
     {
@@ -50,6 +50,13 @@ const routes = [
         component: () => import('../pages/Admin/Establishments/Dashboard.vue'),
         props: (route) => ({ establishmentId: route.params.establishmentId }),
         meta: { requiresAuth: true , onlyUsersEstablishment: true, title : 'Dashboard'},
+    },
+    {
+        path: '/admin/establishments/:establishmentId/profile',
+        name: 'admin.establishments.profile',
+        component: () => import('../pages/Admin/Establishments/Profile/Edit.vue'),
+        props: (route) => ({ establishmentId: route.params.establishmentId }),
+        meta: { requiresAuth: true , onlyUsersEstablishment: true, title : 'Profile'},
     },
     {
         path: '/admin/establishments/:establishmentId/items',

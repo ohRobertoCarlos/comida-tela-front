@@ -30,6 +30,10 @@
                     </li>
 
                     <li>
+                        <RouterLink @click="toggleSidebar" :to="`/admin/establishments/${authStore.user.establishment_id}/profile`">Establishment Profile</RouterLink>
+                    </li>
+
+                    <li>
                         <RouterLink @click="toggleSidebar" to="">Users</RouterLink>
                     </li>
                 </ul>
@@ -38,13 +42,13 @@
             <button class="app-logout-btn" @click="logout">Logout</button>
         </div>
       </div>
-  
+
       <div class="content-sidebar">
         <button class="hamburger" @click="toggleSidebar">&#9776;</button>
       </div>
     </div>
 </template>
-  
+
 <script setup>
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/authStore';
@@ -69,7 +73,7 @@ async function logout() {
     toggleSidebar();
 }
 </script>
-  
+
 <style scoped>
     .sidebar {
     position: fixed;
@@ -163,4 +167,3 @@ async function logout() {
         background-color: #d32f2f; /* Cor mais escura no hover */
     }
 </style>
-  
