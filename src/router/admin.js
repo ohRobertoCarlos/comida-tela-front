@@ -1,5 +1,7 @@
 import Login from '../pages/Admin/Login.vue';
 import Dashboard from '../pages/Admin/Dashboard.vue';
+import PasswordReset from '@/pages/Admin/PasswordReset.vue';
+import PasswordUpdate from '@/pages/Admin/PasswordUpdate.vue';
 
 const routes = [
     {
@@ -12,6 +14,18 @@ const routes = [
         name : 'admin.login',
         component : Login,
         meta: { requiresGuest: true, title : 'Login'}
+    },
+    {
+        path : '/admin/password/reset/email',
+        name : 'admin.password.reset.email',
+        component : PasswordReset,
+        meta: { requiresGuest: true, title : 'Password Reset'}
+    },
+    {
+        path : '/reset-password',
+        name : 'admin.password.reset.update',
+        component : PasswordUpdate,
+        meta: { requiresGuest: true, title : 'Password Update'}
     },
     {
         path : '/admin/dashboard',

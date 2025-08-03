@@ -1,15 +1,17 @@
 <template>
     <div class="container">
-        <div class="card-login">
-            <div class="section-title-card-login">
-                <h3 class="title-card-login">Login</h3>
+        <div v-if="sendedEmailResetPassword === true">
+            <p class="message-email-password-reset-sended">A password recovery email has been sent!</p>
+        </div>
+
+        <div class="card-password-reset" v-else>
+            <div class="section-title-card-password-reset">
+                <h3 class="title-card-password-reset">Reset Password</h3>
             </div>
-            <div class="section-form-login">
-                <form @submit.prevent="login">
+            <div class="section-form-password-reset">
+                <form @submit.prevent="reset">
                     <input type="email" name="email" v-model="email" placeholder="E-mail">
-                    <input type="password" v-model="password" name="password" placeholder="Password">
-                    <RouterLink to="/admin/password/reset/email">Forgot your password?</RouterLink>
-                    <button type="submit" :disabled="loading || !filledCredentials">Login</button>
+                    <button type="submit" :disabled="loading || !email">Send E-mail</button>
                 </form>
             </div>
         </div>
@@ -17,37 +19,32 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/authStore';
-import { RouterLink, useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
 const router = useRouter();
 let loading = ref(false);
 const email = ref('');
-const password = ref('');
+const sendedEmailResetPassword = ref(false);
 
-const filledCredentials = computed(() => {
-    return email.value && password.value;
-});
-
-async function login() {
+async function reset() {
     loading.value = true;
-    try {
-        const result = await authStore.login({ email: email.value, password: password.value });
-        if (result) {
-            router.push({ name : 'admin.dashboard' });
-        } else {
-            throw new Error('Unable to log in');
-        }
-    } catch (error) {
-        loading.value = false;
+
+    const emailSended = await authStore.sendEmailPasswordReset(email.value);
+
+    if (!emailSended) {
+        alert('We were unable to send you the email to retrieve your password!');
+        return;
     }
+
+    sendedEmailResetPassword.value = true;
 }
 </script>
 
 <style scoped>
-.card-login {
+.card-password-reset {
     width: 100%;
     max-width: 600px;
     display: flex;
@@ -57,15 +54,15 @@ async function login() {
     justify-self: center;
 }
 
-.section-form-login {
+.section-form-password-reset {
     width: 100%;
 }
 
-.section-title-card-login {
+.section-title-card-password-reset {
     width: 100%;
 }
 
-.title-card-login {
+.title-card-password-reset {
     text-align: center;
     color: #212529;
 }
@@ -105,6 +102,12 @@ button[type="submit"]:disabled {
 }
 
 input::placeholder {
+    color: #212529;
+}
+
+.message-email-password-reset-sended {
+    font-size: 20px;
+    text-align: center;
     color: #212529;
 }
 </style>

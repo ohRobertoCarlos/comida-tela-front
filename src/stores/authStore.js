@@ -44,7 +44,7 @@ export const useAuthStore = defineStore('auth', {
           credentials: 'include',
         });
 
-        localStorage.removeItem('accessToken'); 
+        localStorage.removeItem('accessToken');
         this.accessToken = null;
         this.user = null;
 
@@ -89,7 +89,7 @@ export const useAuthStore = defineStore('auth', {
         });
 
         if (!response.ok) throw new Error('Usuário não autenticado');
-        
+
         const data = await response.json();
         this.user = data.data;
       } catch (error) {
@@ -100,6 +100,47 @@ export const useAuthStore = defineStore('auth', {
     setToken(token) {
       this.accessToken = token;
       localStorage.setItem('accessToken', token);
+    },
+
+    async sendEmailPasswordReset(email) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/forgot-password`, {
+                method: 'POST',
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email : email }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Could not send reset password email');
+            }
+
+            return true;
+        } catch (error) {
+            return false;
+        }
+    },
+    async updatePassword(data) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/reset-password`, {
+                method: 'POST',
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                throw new Error('Could not update password');
+            };
+
+            return true;
+        } catch (error) {
+            return false;
+        }
     },
   },
 });
