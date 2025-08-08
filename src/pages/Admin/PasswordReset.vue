@@ -36,6 +36,7 @@ async function reset() {
 
     if (!emailSended) {
         alert('We were unable to send you the email to retrieve your password!');
+        loading.value = false;
         return;
     }
 

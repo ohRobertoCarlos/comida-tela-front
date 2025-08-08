@@ -1,6 +1,8 @@
 <template>
     <nav class="categories-nav">
-        <a v-for="category in categories" :href="'#category_' + category.id" :key="category.id">{{ category.name }}</a>
+        <template v-for="category in categories" :key="category.id">
+            <a v-if="category.items && category.items.length > 0" :href="'#category_' + category.id">{{ category.name }}</a>
+        </template>
     </nav>
 </template>
 

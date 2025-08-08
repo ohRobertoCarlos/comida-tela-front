@@ -8,7 +8,9 @@
         </div>
 
         <div v-if="establishment.categories && establishment.categories.length > 0" class="container">
-            <Category v-for="category in establishment.categories" :category="category" :key="category.id"/>
+            <template v-for="category in establishment.categories" :key="category.id">
+                <Category v-if="category.items && category.items.length > 0" :category="category"/>
+            </template>
         </div>
 
         <div v-if="noItemsMenu" class="no-items">
