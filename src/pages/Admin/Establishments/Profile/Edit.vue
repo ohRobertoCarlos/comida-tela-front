@@ -25,8 +25,8 @@
             <label for="title">Image cover:</label>
             <input accept="image/*" @change="handleFile" name="image_cover_profile_url" type="file" class="form-control"/>
 
-            <button type="submit">
-                Atualizar
+            <button type="submit" class="button-submit-form-default">
+                Update
             </button>
         </form>
     </div>
@@ -55,7 +55,7 @@ onMounted(async () => {
 });
 
 async function update() {
-    if (!confirm('Deseja realmente atualizar o perfil?')) {
+    if (!confirm('Do you really want to update your profile?')) {
         return;
     }
 
@@ -71,11 +71,11 @@ async function update() {
     const profileUpdated = await profileStore.update(props.establishmentId, profile.value);
 
     if (!profileUpdated) {
-        alert('Não foi possível atualizar o perfil');
+        alert('Unable to update profile');
         return;
     }
 
-    alert('Perfil atualizado com sucesso!');
+    alert('Profile updated successfully!');
 }
 
 function handleFile(event) {

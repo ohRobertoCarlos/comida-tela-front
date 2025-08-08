@@ -19,29 +19,35 @@
 
         <div>
             <label for="">
-            <input type="checkbox" name="has_range_price" v-model="hasRangePrice">Has Range Price
-        </label>
+                <input type="checkbox" name="has_range_price" v-model="hasRangePrice">Has Range Price
+            </label>
         </div>
 
         <label for="title">Portions:</label>
         <input type="number" min="1" name="portions" v-model="item.portions" class="form-control">
 
         <label for="title">Cover image:</label>
-        <input type="file" accept="image/*" @change="handleFile" ref="coverImage" name="cover_image" class="form-control">
+        <input type="file" accept="image/*" @change="handleFile" name="cover_image" class="form-control">
+
+        <div v-if="categories.length > 0" class="section-categories-options">
+            <label :for="'category_' + category.id" v-for="category in categories" :key="category.id">
+                <input :value="category.id" :id="'category_' + category.id" v-model="categoriesSelected" type="checkbox" name="categories[]">{{ category.name }}
+            </label>
+        </div>
 
         <label for="title">Description:</label>
         <textarea name="description" v-model="item.description" class="form-control">
         </textarea>
 
-        <button type="submit">Atualizar</button>
+        <button type="submit" class="button-submit-form-default">Update</button>
     </form>
 </div>
 </template>
 
 <script setup>
-import { onMounted, reactive, ref, useTemplateRef, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useItemsStore } from '@/stores/Admin/Establishments/itemsStore';
-import { useAuthStore } from '@/stores/authStore';
+import { useCategoriesStore } from '@/stores/Admin/Establishments/Categories/categoriesStore';
 import { uploadPublic } from '@/Utils/UploadFile.js';
 
 const props = defineProps({
@@ -50,15 +56,20 @@ const props = defineProps({
 });
 
 const itemsStore = useItemsStore();
-const authStore = useAuthStore();
+const categoriesStore = useCategoriesStore();
 
-const coverImage = useTemplateRef('coverImage');
 const hasRangePrice = ref(false);
 const item = ref(null);
 const file = ref(null);
+const categories = ref([]);
+const categoriesSelected = ref([]);
 
 onMounted(async () => {
     item.value = await itemsStore.find(props.establishmentId, props.itemId);
+    await categoriesStore.all(props.establishmentId);
+    categories.value = categoriesStore.categories;
+
+    categoriesSelected.value = item.value.categories.map(category => category.id);
 
     if (item.value.min_price && item.value.max_price && item.value.max_price !== '0') {
         hasRangePrice.value = true;
@@ -72,7 +83,7 @@ watch(hasRangePrice, (newHasRangePrice, oldHasRangePrice) => {
 });
 
 async function update() {
-    if (!confirm('Deseja realmente atualizar o item?')) {
+    if (!confirm('Are you sure you want to update the item?')) {
         return;
     }
 
@@ -85,10 +96,12 @@ async function update() {
         item.value.cover_image_url = publicFileUrl;
     }
 
+    item.value.categories = categoriesSelected.value;
+
     let itemUpdated = await itemsStore.update(props.establishmentId, item.value);
 
     if (itemUpdated) {
-        alert('Item atualizado com sucesso!');
+        alert('Item updated successfully!');
         item.value = await itemsStore.find(props.establishmentId, props.itemId);
     }
 }
@@ -112,5 +125,12 @@ input[type="text"], input[type="number"], input[type="file"], textarea {
     border: 1px solid #ced4da;
     margin-bottom: 20px;
     box-sizing: border-box;
+}
+
+.section-categories-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    justify-items: flex-start;
+    margin: 20px 0;
 }
 </style>

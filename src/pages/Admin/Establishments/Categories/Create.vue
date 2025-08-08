@@ -4,7 +4,7 @@
             <label for="title">Name:</label>
             <input v-model="data.name" name="name" type="text" class="form-control"/>
 
-            <button type="submit">
+            <button type="submit" class="button-submit-form-default">
                 Create
             </button>
         </form>

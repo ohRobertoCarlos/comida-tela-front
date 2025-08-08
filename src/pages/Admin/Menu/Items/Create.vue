@@ -33,7 +33,7 @@
         <textarea name="description" v-model="data.description" class="form-control">
         </textarea>
 
-        <button type="submit">Criar</button>
+        <button type="submit" class="button-submit-form-default">Create</button>
     </form>
   </div>
 </template>
@@ -68,7 +68,7 @@ async function create() {
     let item = await itemsStore.create(data);
 
     if (item) {
-        alert('Item criado com sucesso!');
+        alert('Item created successfully!');
         resetForm();
     }
 }
