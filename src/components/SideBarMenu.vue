@@ -14,10 +14,6 @@
                     <li>
                         <RouterLink @click="toggleSidebar" to="/admin/establishments">Establishments</RouterLink>
                     </li>
-
-                    <li>
-                        <RouterLink @click="toggleSidebar" to="">Users</RouterLink>
-                    </li>
                 </ul>
 
                 <ul class="menu" v-else-if="authStore.user !== null && authStore.user.is_admin !== true">

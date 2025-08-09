@@ -1,6 +1,7 @@
 <template>
-    <p>Edit</p> 
+    <p>Edit</p>
     <RouterLink :to="`/admin/establishments/${establishmentId}/items`">items</RouterLink>
+    <RouterLink :to="`/admin/establishments/${establishmentId}/users`">Users</RouterLink>
 </template>
 
 <script setup>

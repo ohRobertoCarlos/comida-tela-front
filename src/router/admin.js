@@ -55,6 +55,27 @@ const routes = [
                 component: () => import('../pages/Admin/Establishments/Edit.vue'),
                 props: (route) => ({ establishmentId: route.params.establishmentId }),
                 meta: { title : 'Edit'}
+            },
+            {
+                path: ':establishmentId/users',
+                name: 'admin.establishments.users.index',
+                component: () => import('../pages/Admin/Establishments/Users/Index.vue'),
+                props: (route) => ({ establishmentId: route.params.establishmentId }),
+                meta: { title : 'Users'}
+            },
+            {
+                path: ':establishmentId/users/create',
+                name: 'admin.establishments.users.create',
+                component: () => import('../pages/Admin/Establishments/Users/Create.vue'),
+                props: (route) => ({ establishmentId: route.params.establishmentId }),
+                meta: { title : 'Create User'}
+            },
+            {
+                path: ':establishmentId/users/:userId/edit',
+                name: 'admin.establishments.users.edit',
+                component: () => import('../pages/Admin/Establishments/Users/Edit.vue'),
+                props: (route) => ({ establishmentId: route.params.establishmentId, userId : route.params.userId }),
+                meta: { title : 'Edit User'}
             }
         ]
     },
