@@ -4,8 +4,8 @@ const routes = [
         name: 'index',
         component: () => import('../pages/Index.vue'),
         meta: {
-            title: 'Buscar Estabelecimento',
-            description: 'Buscar Estabelecimento - Cardápio Online'
+            title: 'Search Establishment',
+            description: 'Search Establishment - Online Menu'
         }
     },
     {
@@ -13,8 +13,8 @@ const routes = [
         name: 'menu',
         component: () => import('../pages/Menu.vue'),
         meta: {
-            title: 'Home - Cardápio Online',
-            description: 'Home - Cardápio Online'
+            title: 'Home - Online Menu',
+            description: 'Home - Online Menu'
         }
     },
     {
@@ -24,14 +24,24 @@ const routes = [
         props: (route) => ({ id: route.params.id, establishmentId: route.params.establishmentId }),
     },
     {
+        path: '/:establishmentId/rating',
+        name: 'ratings',
+        component: () => import('../pages/Ratings/Index.vue'),
+        props: (route) => ({ establishmentId: route.params.establishmentId }),
+        meta: {
+            title: 'Rating',
+            description: 'Rating - Online Menu'
+        }
+    },
+    {
         path: '/:pathMatch(.*)*',
         name : 'NotFound',
         component: () => import('../pages/PageNotFound.vue'),
         meta: {
-            title: '404 - página não encontrada',
-            description: 'Página não encontrada'
+            title: '404 - page not found',
+            description: 'Page not found'
         }
     }
 ];
 
-export default routes;  
+export default routes;

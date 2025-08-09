@@ -1,13 +1,13 @@
 <template>
 <div>
     <header>
-        <h1>Buscar Estabelecimento</h1>
+        <h1>Search establishment</h1>
     </header>
     <div>
         <div class="content">
             <div class="search-container">
                 <div>
-                    <input v-model="search" @keyup="searchEstablishment" type="text" placeholder="Digite o nome do estabelecimento...">
+                    <input v-model="search" @keyup="searchEstablishment" type="text" placeholder="Type establisment name...">
                 </div>
 
                 <div v-show="establishments.length > 0 && !searching && search.length > MIN_CHARACTERS_SEARCH" class="establishments-list">
@@ -23,11 +23,11 @@
                 </div>
 
                 <div v-show="search.length > MIN_CHARACTERS_SEARCH && searching" class="no-results">
-                    <p>Buscando...</p>
+                    <p>Searching...</p>
                 </div>
 
                 <div v-show="search.length > MIN_CHARACTERS_SEARCH && establishments.length === 0 && !searching" class="no-results">
-                    <p>Não foram encontrados resultados</p>
+                    <p>Establishment not found</p>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { RouterLink } from "vue-router";
 
 const search = ref('');
@@ -47,7 +47,6 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost';
 const searching = ref(false);
 
 const MIN_CHARACTERS_SEARCH = 3;
-
 
 async function searchEstablishment() {
     if (search.value.length <= MIN_CHARACTERS_SEARCH) {
@@ -79,7 +78,6 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f8f9fa;
     color: #343a40;
 }
@@ -152,7 +150,7 @@ header h1 {
         font-size: 1.8em;
     }
 
-    .search-container input[type="text"], 
+    .search-container input[type="text"],
     .search-container button {
         font-size: 1em;
     }
@@ -167,7 +165,7 @@ header h1 {
         font-size: 1.5em;
     }
 
-    .search-container input[type="text"], 
+    .search-container input[type="text"],
     .search-container button {
         font-size: 0.9em;
     }
