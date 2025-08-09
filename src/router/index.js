@@ -15,8 +15,8 @@ const router = createRouter({
 
 
 router.beforeEach(async (to) => {
-  document.title = to.meta.title || 'Cardápio Online';
-  const description = to.meta.description || 'Cardápio Online';
+  document.title = to.meta.title || 'Online Menu';
+  const description = to.meta.description || 'Online Menu';
   let meta = document.querySelector('meta[name="description"]');
   if (meta) {
     meta.setAttribute('content', description);
@@ -40,6 +40,10 @@ router.beforeEach(async (to) => {
 
   if (to.meta.requiresAdmin !== undefined && to.meta.requiresAdmin === true && authStore.user.is_admin !== true) {
     return { path: `/admin/establishments/${authStore.user.establishment_id}/dashboard` };
+  }
+
+  if (to.params.establishmentId && to.meta.onlyUsersEstablishment !== undefined && to.meta.onlyUsersEstablishment === true && authStore.user.is_admin === true) {
+    return { path: '/admin/dashboard' };
   }
 
   if (to.params.establishmentId && to.meta.onlyUsersEstablishment !== undefined && to.meta.onlyUsersEstablishment === true && authStore.user.establishment_id && authStore.user.establishment_id !== to.params.establishmentId) {
