@@ -65,5 +65,26 @@ export const useEstablishmentsStore = defineStore('establishments', {
             return null;
         }
     },
+    async update(establishmentId, data) {
+        try {
+            let response = await fetch(`${API_BASE_URL}/establishments/${establishmentId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization' : `Bearer ${authStore.accessToken}`
+                },
+                body : JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error('Unable to update an establishment');
+            }
+
+            return true;
+        } catch (error) {
+            return false;
+        }
+    },
   },
 });
