@@ -11,7 +11,7 @@
                 </div>
 
                 <div v-show="establishments.length > 0 && !searching && search.length > MIN_CHARACTERS_SEARCH" class="establishments-list">
-                    <RouterLink v-for="establishment in establishments" style="text-decoration: none; color: inherit;" :to="'/' + establishment.menu_code" :key="establishment.id">
+                    <RouterLink v-for="establishment in establishments" style="text-decoration: none; color: inherit;" :to="`/${establishment.menu_code}/profile`" :key="establishment.id">
                         <div class="establishment-item">
                             <img :src="establishment?.profile.image_cover_profile_location_url" alt="Logo" class="establishment-logo">
                             <div class="establishment-info">

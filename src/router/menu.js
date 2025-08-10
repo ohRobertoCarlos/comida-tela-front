@@ -18,6 +18,15 @@ const routes = [
         }
     },
     {
+        path: '/:menuCode/profile',
+        name: 'profile',
+        component: () => import('../pages/Profile/Index.vue'),
+        meta: {
+            title: 'Profile - Online Menu',
+            description: 'Profile - Online Menu'
+        }
+    },
+    {
         path: '/:establishmentId/items/:id',
         name: 'item',
         component: () => import('../pages/Item.vue'),

@@ -12,6 +12,11 @@ export const useProfilesStore = defineStore('profiles', {
 
   actions: {
     async update(establishmentId, profile) {
+
+        let data = { ...profile };
+
+        data.opening_hours = JSON.stringify(data.opening_hours);
+        data.payment_methods = JSON.stringify(data.payment_methods);
         try {
             const profileUpdated = await fetch(`${API_BASE_URL}/establishments/${establishmentId}/profiles`, {
                 method: 'PATCH',
@@ -20,7 +25,7 @@ export const useProfilesStore = defineStore('profiles', {
                     'Content-Type': 'application/json',
                     'Authorization' : `Bearer ${authStore.accessToken}`
                 },
-                body : JSON.stringify(profile)
+                body : JSON.stringify(data)
             })
                 .then(response => {
                     if (!response.ok) {

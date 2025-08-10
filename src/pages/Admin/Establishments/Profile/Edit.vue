@@ -10,12 +10,6 @@
             <label for="title">Whatsapp</label>
             <input v-model="profile.whatsapp" name="whatsapp" type="text" class="form-control"/>
 
-            <label for="title">opening hours:</label>
-            <input v-model="profile.opening_hours" name="opening_hours" type="text" class="form-control"/>
-
-            <label for="title">payment methods:</label>
-            <input v-model="profile.payment_methods" name="payment_methods" type="text" class="form-control"/>
-
             <label for="title">localization:</label>
             <input v-model="profile.localization" name="localization" type="text" class="form-control"/>
 
@@ -24,6 +18,10 @@
 
             <label for="title">Image cover:</label>
             <input accept="image/*" @change="handleFile" name="image_cover_profile_url" type="file" class="form-control"/>
+
+            <OpeningHours :profile="profile" @add="addOpeningHours" @remove="removeOpeningHours"/>
+
+            <PaymentMethods :profile="profile" @add="addPaymentMethods" @remove="removePaymentMethods"/>
 
             <button type="submit" class="button-submit-form-default">
                 Update
@@ -37,6 +35,8 @@ import { useEstablishmentsStore } from "@/stores/Admin/Establishments/establishm
 import { useProfilesStore } from "@/stores/Admin/Establishments/Profile/profileStore";
 import { onMounted, ref } from "vue";
 import { uploadPublic } from '@/Utils/UploadFile.js';
+import OpeningHours from "@/components/Admin/Establishments/Profile/OpeningHours.vue";
+import PaymentMethods from "@/components/Admin/Establishments/Profile/PaymentMethods.vue";
 
 const props = defineProps({
   establishmentId: String
@@ -52,6 +52,8 @@ const file = ref(null);
 onMounted(async () => {
     establishment.value = await establishmentStore.find(props.establishmentId);
     profile.value = establishment.value.profile;
+    profile.value.opening_hours = JSON.parse(profile.value.opening_hours);
+    profile.value.payment_methods = JSON.parse(profile.value.payment_methods);
 });
 
 async function update() {
@@ -80,6 +82,30 @@ async function update() {
 
 function handleFile(event) {
     file.value = event.target.files[0] ?? null;
+}
+
+function addOpeningHours(openingHours) {
+    if (!profile.value.opening_hours) {
+        profile.value.opening_hours = { values : [] };
+    }
+
+    profile.value.opening_hours.values.push(openingHours);
+}
+
+function removeOpeningHours(id) {
+    profile.value.opening_hours.values = profile.value.opening_hours.values.filter(openingHour => openingHour.id !== id);
+}
+
+function addPaymentMethods(paymentMethod) {
+    if (!profile.value.payment_methods) {
+        profile.value.payment_methods = { values : [] };
+    }
+
+    profile.value.payment_methods.values.push(paymentMethod);
+}
+
+function removePaymentMethods(id) {
+    profile.value.payment_methods.values = profile.value.payment_methods.values.filter(paymentMethod => paymentMethod.id !== id);
 }
 
 </script>

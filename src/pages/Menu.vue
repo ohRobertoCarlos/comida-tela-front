@@ -14,7 +14,7 @@
         </div>
 
         <div v-if="noItemsMenu" class="no-items">
-            <p>Não há itens no menu deste estabelecimento</p>
+            <p>There are no items on this establishment's menu</p>
         </div>
     </div>
 </template>
