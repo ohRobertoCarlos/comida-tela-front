@@ -19,6 +19,9 @@
             <label for="title">Image cover:</label>
             <input accept="image/*" @change="handleFile" name="image_cover_profile_url" type="file" class="form-control"/>
 
+            <label for="title">Image cover background:</label>
+            <input accept="image/*" @change="handleFileCoverBackground" name="image_cover_background_profile_url" type="file" class="form-control"/>
+
             <OpeningHours :profile="profile" @add="addOpeningHours" @remove="removeOpeningHours"/>
 
             <PaymentMethods :profile="profile" @add="addPaymentMethods" @remove="removePaymentMethods"/>
@@ -48,6 +51,7 @@ const profileStore = useProfilesStore();
 const profile = ref(null);
 const establishment = ref(null);
 const file = ref(null);
+const fileCoverBackground = ref(null);
 
 onMounted(async () => {
     establishment.value = await establishmentStore.find(props.establishmentId);
@@ -70,6 +74,15 @@ async function update() {
         profile.value.image_cover_profile_url = publicFileUrl;
     }
 
+    let publicFileCoverBackgroundUrl = '';
+    if (fileCoverBackground.value !== null) {
+        publicFileCoverBackgroundUrl = await uploadPublic(fileCoverBackground.value);
+    }
+
+    if (publicFileCoverBackgroundUrl) {
+        profile.value.image_cover_background_profile_url = publicFileCoverBackgroundUrl;
+    }
+
     const profileUpdated = await profileStore.update(props.establishmentId, profile.value);
 
     if (!profileUpdated) {
@@ -82,6 +95,10 @@ async function update() {
 
 function handleFile(event) {
     file.value = event.target.files[0] ?? null;
+}
+
+function handleFileCoverBackground(event) {
+    fileCoverBackground.value = event.target.files[0] ?? null;
 }
 
 function addOpeningHours(openingHours) {
