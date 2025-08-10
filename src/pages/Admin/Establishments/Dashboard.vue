@@ -1,5 +1,8 @@
 <template>
-  <p>Dashboard: {{ establishmentId }}</p>
+    <p>Dashboard: {{ establishmentId }}</p>
+    <p>
+        <RouterLink :to="`/admin/establishments/${establishmentId}/qrcode`">QR Code</RouterLink>
+    </p>
 </template>
 
 <script setup>

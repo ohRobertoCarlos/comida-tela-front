@@ -140,6 +140,13 @@ const routes = [
         component: () => import('../pages/Admin/Menu/Items/Edit.vue'),
         props: (route) => ({ establishmentId: route.params.establishmentId, itemId: route.params.itemId }),
         meta: { requiresAuth: true , onlyUsersEstablishment: true, title : 'Edit'}
+    },
+    {
+        path: '/admin/establishments/:establishmentId/qrcode',
+        name: 'admin.establishments.qrcode',
+        component: () => import('../pages/Admin/Establishments/Qrcode.vue'),
+        props: (route) => ({ establishmentId: route.params.establishmentId }),
+        meta: { requiresAuth: true , onlyUsersEstablishment: true, title : 'QR Code'},
     }
 ];
 
